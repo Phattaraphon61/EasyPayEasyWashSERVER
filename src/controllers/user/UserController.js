@@ -8,7 +8,11 @@ const router = express.Router()
 
 router.post('/create', async (request, response, next) => {
     console.log(request.body)
-    const userModel = await UserModel(request.body).save()
+    let userModel;
+    userModel = await UserModel.findOne({ 'userid': request.body.userid });
+    if (userModel == null) {
+        userModel = await UserModel(request.body).save()
+    }
     const decorator = await UserDecorator.Decorator(userModel)
     response.json({
         code: responseCode.SUCCESS,
@@ -18,25 +22,25 @@ router.post('/create', async (request, response, next) => {
 })
 router.post('/update', async (request, response, next) => {
     console.log(request.body)
+    let userMode;
     if (request.body.type == "addbalance") {
-        await UserModel.updateOne({ userid: request.body.userid },
+        userMode = await UserModel.findOneAndUpdate({ userid: request.body.userid },
             {
                 $inc: { balance: request.body.balance, total: request.body.balance },
-            });
+            }, { 'new': true });
     }
     if (request.body.type == "withdraw") {
-        await UserModel.updateOne({ userid: request.body.userid },
+        userMode = await UserModel.findOneAndUpdate({ userid: request.body.userid },
             {
                 $inc: { balance: -request.body.balance },
-            });
+            }, { 'new': true });
     } if (request.body.type == "bank") {
-        await UserModel.updateOne({ userid: request.body.userid },
+        userMode = await UserModel.findOneAndUpdate({ userid: request.body.userid },
             {
                 $push: { bank: { bank: request.body.bank, number: request.body.number, name: request.body.name } },
-            });
+            }, { 'new': true });
     }
-    const getuserModel = await UserModel.findOne({ userid: request.body.userid });
-    const decorator = await UserDecorator.Decorator(getuserModel)
+    const decorator = await UserDecorator.Decorator(userMode)
     response.json({
         code: responseCode.SUCCESS,
         message: 'success',

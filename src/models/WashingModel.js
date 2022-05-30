@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const constants = require('../configs/constants')
+const Schema  = require('mongoose')
 
 const WashingSchema = new mongoose.Schema(
     {
@@ -14,11 +15,11 @@ const WashingSchema = new mongoose.Schema(
         },
         detail: {
             type: String,
-            require: true
+            default: "-"
         },
         price: {
             type: String,
-            require: true
+            default: "20"
         }
     }
 )

@@ -25,7 +25,11 @@ db.on('error', error => console.log(error))
 db.once('open', () => console.log('connection to db established'))
 
 app.use(logger('combined'))
-app.use(cors())
+const corsOptions = {
+    origin: 'https://easypayeasywash.tk',
+    credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
