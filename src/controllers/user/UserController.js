@@ -9,7 +9,7 @@ const router = express.Router()
 router.post('/create', async (request, response, next) => {
     console.log(request.body)
     let userModel;
-    userModel = await UserModel.findOne({ 'userid': request.body.userid });
+    userModel = await UserModel.findOne({ 'fbid': request.body.fbid });
     if (userModel == null) {
         userModel = await UserModel(request.body).save()
     }
@@ -24,18 +24,18 @@ router.post('/update', async (request, response, next) => {
     console.log(request.body)
     let userMode;
     if (request.body.type == "addbalance") {
-        userMode = await UserModel.findOneAndUpdate({ userid: request.body.userid },
+        userMode = await UserModel.findOneAndUpdate({ fbid: request.body.fbid },
             {
                 $inc: { balance: request.body.balance, total: request.body.balance },
             }, { 'new': true });
     }
     if (request.body.type == "withdraw") {
-        userMode = await UserModel.findOneAndUpdate({ userid: request.body.userid },
+        userMode = await UserModel.findOneAndUpdate({ fbid: request.body.fbid },
             {
                 $inc: { balance: -request.body.balance },
             }, { 'new': true });
     } if (request.body.type == "bank") {
-        userMode = await UserModel.findOneAndUpdate({ userid: request.body.userid },
+        userMode = await UserModel.findOneAndUpdate({ fbid: request.body.fbid },
             {
                 $push: { bank: { bank: request.body.bank, number: request.body.number, name: request.body.name } },
             }, { 'new': true });

@@ -5,7 +5,7 @@ const Decorator = (item) => {
 
   return {
     id: item._id,   
-    userid: item.userid,
+    fbid: item.fbid,
     name: item.name,
     balance: item.balance,
     total: item.total,

@@ -8,9 +8,18 @@ const router = express.Router()
 
 router.post('/getinfo', async (request, response, next) => {
     console.log(request.body)
-    const washingModel = await WashingModel.findOne({ 'washingid': request.body.washingid }).populate('userid');
-    console.log(washingModel)
+    const washingModel = await WashingModel.findOne({ 'washingid': request.body.washingid }).populate('userid')
     const decorator = await WashingDecorator.Decorator(washingModel)
+    response.json({
+        code: responseCode.SUCCESS,
+        message: 'success',
+        data: decorator
+    })
+})
+router.post('/getmywashing', async (request, response, next) => {
+    console.log(request.body)
+    const washingModel = await WashingModel.find({'userid': request.body.userid})
+    const decorator = await washingModel.map(mywashing => WashingDecorator.Decorator(mywashing));
     response.json({
         code: responseCode.SUCCESS,
         message: 'success',

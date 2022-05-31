@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const constants = require('../configs/constants')
 const UserSchema = new mongoose.Schema(
     {
-        userid: {
+        fbid: {
             type: String,
             require: true
         },
