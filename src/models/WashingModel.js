@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const constants = require('../configs/constants')
-const Schema  = require('mongoose')
+const Schema = require('mongoose')
 
 const WashingSchema = new mongoose.Schema(
     {

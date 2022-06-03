@@ -1,22 +1,29 @@
 const mongoose = require('mongoose')
-const constants = require('../configs/constants')   
+const Schema = require('mongoose')
 
-const testSchema = new mongoose.Schema(
+const WithdrawSchema = new mongoose.Schema(
     {
-        name: {
-            type: String,
+        userid: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
             require: true
         },
-        email: {
-            type: String,
+        bank: {
+            type: Object,
             require: true
         },
-        age: {
-            type: String
+        amount: {
+            type: Number,
+            require: true
+        },
+        status: {
+            type: String,
+            default: "wait",
+            enum: ['wait', 'approve', 'rejected']
         }
-    }
+    }, { timestamps: true }
 )
 
-const TestModel = mongoose.model('Test', testSchema)
+const WithdrawModel = mongoose.model('Withdraw', WithdrawSchema)
 
-module.exports = TestModel
+module.exports = WithdrawModel

@@ -18,7 +18,7 @@ module.exports = {
     NO_AUTH_CODE: 401,
   },
 
-  DATETIME_FORMAT: 'DD/MM/yyyy HH:mm:ss',
+  DATETIME_FORMAT: 'DD-MM-yyyy HH:mm:ss',
 
 }
 
