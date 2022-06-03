@@ -20,6 +20,9 @@ const WithdrawSchema = new mongoose.Schema(
             type: String,
             default: "wait",
             enum: ['wait', 'approve', 'rejected']
+        },
+        detail: {
+            type: String,
         }
     }, { timestamps: true }
 )
