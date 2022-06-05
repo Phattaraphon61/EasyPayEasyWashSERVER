@@ -22,14 +22,23 @@ router.post('/create', async (request, response, next) => {
 })
 router.post('/update', async (request, response, next) => {
     console.log(request.body)
-    const withdrawModel = await WithdrawModel.findOneAndUpdate({ _id: request.body.id },
-        {
-            $set: { status: request.body.status, detail: request.body.detail },
-        }, { 'new': true });
-    await UserModel.updateOne({ _id: withdrawModel.userid },
-        {
-            $inc: { balance: request.body.amount },
-        });
+    let withdrawModel;
+    if (request.body.status == 'rejected') {
+        withdrawModel = await WithdrawModel.findOneAndUpdate({ _id: request.body.id },
+            {
+                $set: { status: request.body.status, detail: request.body.detail },
+            }, { 'new': true });
+        await UserModel.updateOne({ _id: withdrawModel.userid },
+            {
+                $inc: { balance: request.body.amount },
+            });
+    } else if (request.body.status == 'approve') {
+        withdrawModel = await WithdrawModel.findOneAndUpdate({ _id: request.body.id },
+            {
+                $set: { status: request.body.status },
+            }, { 'new': true });
+    }
+
     const decorator = await WithdrawDecorator.Decorator(withdrawModel)
     response.json({
         code: responseCode.SUCCESS,
