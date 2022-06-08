@@ -20,7 +20,7 @@ const WashingSchema = new mongoose.Schema(
             type: String,
             default: "20"
         }
-    }
+    }, { timestamps: true }
 )
 
 const WashingModel = mongoose.model('Washing', WashingSchema)
