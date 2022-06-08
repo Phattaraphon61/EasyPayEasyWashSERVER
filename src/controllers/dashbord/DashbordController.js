@@ -1,4 +1,5 @@
 const express = require('express')
+const moment = require('moment')
 const responseCode = require('../../configs/responseCode')
 const DashbordModel = require('../../models/DashbordModel')
 const UserModel = require('../../models/UserModel')
@@ -39,7 +40,16 @@ router.get('/', async (request, response, next) => {
     })
 })
 router.post('/', async (request, response, next) => {
-    const dashbordModel = await DashbordModel(request.body).save()
+    const dashbordModel = await DashbordModel.find({ "$expr": { "$eq": [{ "$month": "$createdAt" }, new Date().getMonth() + 1] } })
+    if (dashbordModel.length == 0) {
+        const ttt = await DashbordModel(request.body.amounttotal).save();
+    }
+    // const dashbordModel = await DashbordModel(request.body).save()
+    // const dashbordModel = await DashbordModel.find({
+    //     createdAt: moment(new Date()).format("yy-MM-DD"),
+    //         // $lt: "2022-06-01"
+
+    // })
     // const dashbordModel = await DashbordModel.updateMany(
     //     {
     //         $inc: { washing: request.body.washing, amounttotal: request.body.amounttotal },
@@ -48,7 +58,7 @@ router.post('/', async (request, response, next) => {
     response.json({
         code: responseCode.SUCCESS,
         message: 'success',
-        data: "success"
+        data: dashbordModel
     })
 })
 
