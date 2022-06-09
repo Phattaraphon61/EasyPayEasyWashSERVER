@@ -1,6 +1,7 @@
 const express = require('express')
 const responseCode = require('../../configs/responseCode')
 const WashingModel = require('../../models/WashingModel')
+const DashbordModel = require('../../models/DashbordModel')
 const WashingDecorator = require('../../decorators/WashingDecorator')
 
 const router = express.Router()
@@ -29,6 +30,7 @@ router.post('/getmywashing', async (request, response, next) => {
 
 router.post('/login', async (request, response, next) => {
     console.log(request.body)
+    await DashbordModel({amounttotal:0}).save();
     const washingModel = await WashingModel(request.body).save()
     const decorator = await WashingDecorator.Decorator(washingModel)
     response.json({

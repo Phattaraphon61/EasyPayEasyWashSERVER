@@ -9,7 +9,7 @@ const DashbordDecorator = require('../../decorators/DashbordDecorator')
 
 const router = express.Router()
 
-router.get('/', async (request, response, next) => {
+router.get('/:year', async (request, response, next) => {
     let withdraw;
     let dashbord
     // const dashbordModel = await DashbordModel.find({ "$expr": { "$eq": [{ "$year": "$createdAt" }, new Date().getFullYear()] } })
@@ -22,7 +22,7 @@ router.get('/', async (request, response, next) => {
                         "$redact": {
                             "$cond": {
                                 "if": {
-                                    "$eq": [{ "$year": "$createdAt" }, new Date().getFullYear()]
+                                    "$eq": [{ "$year": "$createdAt" }, new Date(request.params.year).getFullYear()]
                                 },
                                 "then": "$$KEEP",
                                 "else": "$$PRUNE"
@@ -35,7 +35,7 @@ router.get('/', async (request, response, next) => {
                         "$redact": {
                             "$cond": {
                                 "if": {
-                                    "$eq": [{ "$year": "$createdAt" }, new Date().getFullYear()-1]
+                                    "$eq": [{ "$year": "$createdAt" }, new Date().getFullYear() - 1]
                                 },
                                 "then": "$$KEEP",
                                 "else": "$$PRUNE"
@@ -139,8 +139,10 @@ router.get('/', async (request, response, next) => {
 
     // }
     let m = [];
-    dashbordModel[0].thisyear.map((year) =>{
-        m.push(new Date(year.createdAt).toLocaleDateString('th-TH', {month: 'long',}))
+    let n = [];
+    dashbordModel[0].thisyear.map((year) => {
+        m.push(new Date(year.createdAt).toLocaleDateString('th-TH', { month: 'long', }))
+        n.push(year.amounttotal)
     })
     console.log(withdrawModel[0].success)
     if (washingModel[0].count.length !== 0) {
@@ -159,7 +161,7 @@ router.get('/', async (request, response, next) => {
     response.json({
         code: responseCode.SUCCESS,
         message: 'success',
-        data: { "dashbordModel": dashbord, "userModel": userModel[0] ? userModel[0] : { "user": 0, "total": 0 }, "withdrawModel": withdraw, "chart": m }
+        data: { "dashbordModel": dashbord, "userModel": userModel[0] ? userModel[0] : { "user": 0, "total": 0 }, "withdrawModel": withdraw, "month": m, 'chart': n }
     })
 })
 router.post('/', async (request, response, next) => {
