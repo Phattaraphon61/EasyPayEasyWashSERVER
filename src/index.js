@@ -26,7 +26,7 @@ db.once('open', () => console.log('connection to db established'))
 
 app.use(logger('combined'))
 const corsOptions = {
-    origin: ['https://easypayeasywash.tk','http://localhost:3000'],
+    origin: ['https://easypayeasywash.tk','http://localhost:3000','https://scan.easypayeasywash.tk'],
     credentials: true,
 };
 app.use(cors(corsOptions));

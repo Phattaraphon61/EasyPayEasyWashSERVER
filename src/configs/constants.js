@@ -11,6 +11,7 @@ module.exports = {
   APP_NAME: process.env.APP_NAME,
   PORT: process.env.PORT || 5000,
   MQTT:process.env.MQTT_URL,
+  LINETOKEN:process.env.LINETOKEN,
 
   
 

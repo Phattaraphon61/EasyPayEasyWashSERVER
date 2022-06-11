@@ -1,6 +1,7 @@
 const mqtt = require('mqtt');
 const TestController = require('../src/mqttcontrollers/test/TestController')
 const GenqrcodeController = require('../src/mqttcontrollers/qrcode/gencodepayment')
+const NotiController = require('../src/mqttcontrollers/noti/noti')
 
 class MqttHandler {
     constructor(host) {
@@ -29,6 +30,7 @@ class MqttHandler {
         this.mqttClient.subscribe('outTopic');
         this.mqttClient.subscribe('payment');
         this.mqttClient.subscribe('mytopic');
+        this.mqttClient.subscribe('noti');
 
         // When a message arrives, console.log it
         this.mqttClient.on('message', async function (topic, message) {
@@ -42,6 +44,10 @@ class MqttHandler {
                 console.log("IN")
                 const test = await GenqrcodeController.genqrcode(message.toString())
                 await mqtts.publish(test.id, "qr," + test.qr);
+            }
+            if (topic.toString() === "noti") {
+                console.log("IN")
+                await NotiController.linenoti(message.toString())
             }
             // this.sendMessage("iiii","uuu")
         });
