@@ -19,6 +19,10 @@ const WashingSchema = new mongoose.Schema(
         price: {
             type: String,
             default: "20"
+        },
+        noti: {
+            type: Object,
+            default: []
         }
     }, { timestamps: true }
 )

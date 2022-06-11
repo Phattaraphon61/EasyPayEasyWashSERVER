@@ -11,6 +11,7 @@ const Decorator = (item) => {
     userid: item.userid,
     detail: item.detail,
     price: item.price,
+    noti:item.noti,
     createdAt: moment(item.createdAt).format(constants.DATETIME_FORMAT),
     updatedAt: moment(item.updatedAt).format(constants.DATETIME_FORMAT),
   }

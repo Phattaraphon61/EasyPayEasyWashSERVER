@@ -40,6 +40,12 @@ router.post('/update', async (request, response, next) => {
                 $push: { bank: { bank: request.body.bank, number: request.body.number, name: request.body.name } },
             }, { 'new': true });
     }
+    if (request.body.type == "removebank") {
+        userMode = await UserModel.updateOne(
+            { fbid: request.body.fbid },
+            { $pull: { bank: { number: request.body.number } } }
+        );
+    }
     const decorator = await UserDecorator.Decorator(userMode)
     response.json({
         code: responseCode.SUCCESS,
